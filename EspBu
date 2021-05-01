@@ -2,7 +2,7 @@ local lplr = game.Players.LocalPlayer
 local camera = game:GetService("Workspace").CurrentCamera
 local CurrentCamera = workspace.CurrentCamera
 local worldToViewportPoint = CurrentCamera.worldToViewportPoint
-local boxenabled = false
+
 local HeadOff = Vector3.new(0, 0.5, 0)
 local LegOff = Vector3.new(0,3,0)
 
@@ -36,7 +36,7 @@ for i,v in pairs(game.Players:GetChildren()) do
 
     function boxesp()
         game:GetService("RunService").RenderStepped:Connect(function()
-            if v.Character ~= nil and v.Character:FindFirstChild("Humanoid") ~= nil and v.Character:FindFirstChild("HumanoidRootPart") ~= nil and v ~= lplr and v.Character.Humanoid.Health > 0 and boxenabled == true then
+            if v.Character ~= nil and v.Character:FindFirstChild("Humanoid") ~= nil and v.Character:FindFirstChild("HumanoidRootPart") ~= nil and v ~= lplr and v.Character.Humanoid.Health > 0 then
                 local Vector, onScreen = camera:worldToViewportPoint(v.Character.HumanoidRootPart.Position)
 
                 local RootPart = v.Character.HumanoidRootPart
@@ -124,7 +124,7 @@ game.Players.PlayerAdded:Connect(function(v)
 
     function boxesp()
         game:GetService("RunService").RenderStepped:Connect(function()
-            if v.Character ~= nil and v.Character:FindFirstChild("Humanoid") ~= nil and v.Character:FindFirstChild("HumanoidRootPart") ~= nil and v ~= lplr and v.Character.Humanoid.Health > 0 and boxenabled == true then
+            if v.Character ~= nil and v.Character:FindFirstChild("Humanoid") ~= nil and v.Character:FindFirstChild("HumanoidRootPart") ~= nil and v ~= lplr and v.Character.Humanoid.Health > 0 then
                 local Vector, onScreen = camera:worldToViewportPoint(v.Character.HumanoidRootPart.Position)
 
                 local RootPart = v.Character.HumanoidRootPart
@@ -147,9 +147,9 @@ game.Players.PlayerAdded:Connect(function(v)
                     HealthBarOutline.Visible = true
 
                     HealthBar.Size = Vector2.new(2, (HeadPosition.Y - LegPosition.Y) / (game:GetService("Players")[v.Character.Name].NRPBS["MaxHealth"].Value / math.clamp(game:GetService("Players")[v.Character.Name].NRPBS["Health"].Value, 0, game:GetService("Players")[v.Character.Name].NRPBS:WaitForChild("MaxHealth").Value)))
-                    HealthBar.Position = Vector2.new(Box.Position.X - 6, Box.Position.Y + (1 / HealthBar.Size.Y))
-                    HealthBar.Color = Color3.fromRGB(255 - 255 / (game:GetService("Players")[v.Character.Name].NRPBS["MaxHealth"].Value / game:GetService("Players")[v.Character.Name].NRPBS["Health"].Value), 255 / (game:GetService("Players")[v.Character.Name].NRPBS["MaxHealth"].Value / game:GetService("Players")[v.Character.Name].NRPBS["Health"].Value), 0)
-                    HealthBar.Visible = true
+                    HealthBar.Position = Vector2.new(Box.Position.X - 6, Box.Position.Y + (1/HealthBar.Size.Y))
+		    HealthBar.Color = Color3.fromRGB(255 - 255 / (game:GetService("Players")[v.Character.Name].NRPBS["MaxHealth"].Value / game:GetService("Players")[v.Character.Name].NRPBS["Health"].Value), 255 / (game:GetService("Players")[v.Character.Name].NRPBS["MaxHealth"].Value / game:GetService("Players")[v.Character.Name].NRPBS["Health"].Value), 0)                    
+		    HealthBar.Visible = true
 
                     if v.TeamColor == lplr.TeamColor then
                         --- Our Team
@@ -180,4 +180,4 @@ game.Players.PlayerAdded:Connect(function(v)
         end)
     end
     coroutine.wrap(boxesp)()
-end
+end)
