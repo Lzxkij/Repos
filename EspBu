@@ -133,7 +133,7 @@ game.Players.PlayerAdded:Connect(function(v)
                 local HeadPosition = worldToViewportPoint(CurrentCamera, Head.Position + HeadOff)
                 local LegPosition = worldToViewportPoint(CurrentCamera, RootPart.Position - LegOff)
 
-                if onScreen then
+                if onScreen and testy == true then
                     BoxOutline.Size = Vector2.new(1000 / RootPosition.Z, HeadPosition.Y - LegPosition.Y)
                     BoxOutline.Position = Vector2.new(RootPosition.X - BoxOutline.Size.X / 2, RootPosition.Y - BoxOutline.Size.Y / 2)
                     BoxOutline.Visible = true
