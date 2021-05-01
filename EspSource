@@ -22,6 +22,18 @@ local cam = workspace.CurrentCamera
 local plrs = game:GetService("Players")
 local plr = plrs.LocalPlayer
 local mouse = plr:GetMouse()
+	    local HealthBarOutline = Drawing.new("Square")
+    HealthBarOutline.Thickness = 3
+    HealthBarOutline.Filled = false
+    HealthBarOutline.Color = Color3.new(0,0,0)
+    HealthBarOutline.Transparency = 1
+    HealthBarOutline.Visible = false
+
+    local HealthBar = Drawing.new("Square")
+    HealthBar.Thickness = 1
+    HealthBar.Filled = false
+    HealthBar.Transparency = 1
+    HealthBar.Visible = false
 
 local V3new = Vector3.new
 local WorldToViewportPoint = cam.WorldToViewportPoint
@@ -202,6 +214,12 @@ function boxBase:Update()
         local TopRight, Vis2 = WorldToViewportPoint(cam, locs.TopRight.p)
         local BottomLeft, Vis3 = WorldToViewportPoint(cam, locs.BottomLeft.p)
         local BottomRight, Vis4 = WorldToViewportPoint(cam, locs.BottomRight.p)
+	
+	                local RootPart = v.Character.HumanoidRootPart
+                local Head = v.Character.Head
+                local RootPosition, RootVis = worldToViewportPoint(CurrentCamera, RootPart.Position)
+                local HeadPosition = worldToViewportPoint(CurrentCamera, Head.Position + HeadOff)
+                local LegPosition = worldToViewportPoint(CurrentCamera, RootPart.Position - LegOff)
 
         if self.Components.Quad then
             if Vis1 or Vis2 or Vis3 or Vis4 then
@@ -211,12 +229,22 @@ function boxBase:Update()
                 self.Components.Quad.PointC = Vector2.new(BottomLeft.X, BottomLeft.Y)
                 self.Components.Quad.PointD = Vector2.new(BottomRight.X, BottomRight.Y)
                 self.Components.Quad.Color = color
+		                    HealthBarOutline.Size = Vector2.new(2, HeadPosition.Y - LegPosition.Y)
+                    HealthBarOutline.Position = BoxOutline.Position - Vector2.new(6,0)
+                    HealthBarOutline.Visible = true
+
+                    HealthBar.Size = Vector2.new(2, (HeadPosition.Y - LegPosition.Y) / (game:GetService("Players")[v.Character.Name].NRPBS["MaxHealth"].Value / math.clamp(game:GetService("Players")[v.Character.Name].NRPBS["Health"].Value, 0, game:GetService("Players")[v.Character.Name].NRPBS:WaitForChild("MaxHealth").Value)))
+                    HealthBar.Position = Vector2.new(Box.Position.X - 6, Box.Position.Y + (1 / HealthBar.Size.Y))
+                    HealthBar.Color = Color3.fromRGB(255 - 255 / (game:GetService("Players")[v.Character.Name].NRPBS["MaxHealth"].Value / game:GetService("Players")[v.Character.Name].NRPBS["Health"].Value), 255 / (game:GetService("Players")[v.Character.Name].NRPBS["MaxHealth"].Value / game:GetService("Players")[v.Character.Name].NRPBS["Health"].Value), 0)
+                    HealthBar.Visible = true
             else
                 self.Components.Quad.Visible = false
             end
         end
     else
         self.Components.Quad.Visible = false
+	HealthBarOutline.Visible = false
+	HealthBar.Visible = false
     end
 
     if ESP.Names then
